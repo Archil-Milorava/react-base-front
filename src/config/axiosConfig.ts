@@ -8,13 +8,10 @@ const options = {
 const API = axios.create(options);
 
 API.interceptors.response.use(
-  (response) => {
-    // console.log(response.data);
-    return response.data;
-  },
+  (response) => response.data,
   (error) => {
-    // console.log(error.response.data);
-    return Promise.reject(error.response.data);
+    const { status: statusCode, data } = error.response;
+    return Promise.reject({ statusCode, ...data });
   }
 );
 

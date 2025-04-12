@@ -17,3 +17,6 @@ export const handleSignUp = async (inputData: signUpTypes) =>
 
 export const handleSignIn = async (inputData: signInTypes) =>
   API.post("/api/v1/user/signIn", inputData);
+
+export const handleCurrentUser = async () =>
+  API.get("/api/v1/user/currentUser");

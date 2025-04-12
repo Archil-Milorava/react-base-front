@@ -1,5 +1,9 @@
-import { handleSignIn, handleSignUp } from "@/services/apiAuth";
-import { useMutation } from "@tanstack/react-query";
+import {
+  handleSignIn,
+  handleSignUp,
+  handleCurrentUser,
+} from "@/services/apiAuth";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +16,9 @@ export const useSignUp = () => {
     isError,
   } = useMutation({
     mutationFn: handleSignUp,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data);
+
       toast.success("account created successfully");
       navigate("/login");
     },
@@ -37,4 +43,18 @@ export const useSignIn = () => {
   });
 
   return { signIn, error, isPending, isError };
+};
+
+export const useCurrentUser = () => {
+  const {
+    data: currentUser,
+    error,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ["currentUser"],
+    queryFn: handleCurrentUser,
+  });
+
+  return { currentUser, error, isError, isLoading };
 };
